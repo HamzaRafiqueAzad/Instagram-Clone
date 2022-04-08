@@ -9,21 +9,49 @@
 /* Begin PBXBuildFile section */
 		BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33A92800C92500C20086 /* AppDelegate.swift */; };
 		BBEF33AC2800C92500C20086 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AB2800C92500C20086 /* SceneDelegate.swift */; };
-		BBEF33AE2800C92500C20086 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AD2800C92500C20086 /* ViewController.swift */; };
+		BBEF33AE2800C92500C20086 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AD2800C92500C20086 /* HomeViewController.swift */; };
 		BBEF33B12800C92500C20086 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBEF33AF2800C92500C20086 /* Main.storyboard */; };
 		BBEF33B32800C92800C20086 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBEF33B22800C92800C20086 /* Assets.xcassets */; };
 		BBEF33B62800C92800C20086 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBEF33B42800C92800C20086 /* LaunchScreen.storyboard */; };
+		BBEF33C22800CA7100C20086 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33C12800CA7100C20086 /* ExploreViewController.swift */; };
+		BBEF33C42800CA9000C20086 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33C32800CA9000C20086 /* CameraViewController.swift */; };
+		BBEF33C62800CAA300C20086 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33C52800CAA300C20086 /* NotificationsViewController.swift */; };
+		BBEF33C82800CAAA00C20086 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33C72800CAAA00C20086 /* ProfileViewController.swift */; };
+		BBEF33CD2800CB0500C20086 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33CC2800CB0500C20086 /* LoginViewController.swift */; };
+		BBEF33CF2800CB1200C20086 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33CE2800CB1200C20086 /* RegistrationViewController.swift */; };
+		BBEF33D12800CB2900C20086 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33D02800CB2900C20086 /* PostViewController.swift */; };
+		BBEF33D32800CB4500C20086 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33D22800CB4500C20086 /* EditProfileViewController.swift */; };
+		BBEF33D52800CB4F00C20086 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33D42800CB4F00C20086 /* SettingsViewController.swift */; };
+		BBEF33D72800CB5D00C20086 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33D62800CB5D00C20086 /* ListViewController.swift */; };
+		BBEF33D92800CB7100C20086 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33D82800CB7100C20086 /* SearchViewController.swift */; };
+		BBEF33DB2800CB7900C20086 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33DA2800CB7900C20086 /* SearchResultViewController.swift */; };
+		BBEF33DD2800CB9F00C20086 /* PostEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33DC2800CB9F00C20086 /* PostEditorViewController.swift */; };
+		BBEF33DF2800CBAD00C20086 /* PublishPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33DE2800CBAD00C20086 /* PublishPostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BBEF33A62800C92500C20086 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBEF33A92800C92500C20086 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEF33AB2800C92500C20086 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BBEF33AD2800C92500C20086 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BBEF33AD2800C92500C20086 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BBEF33B02800C92500C20086 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBEF33B22800C92800C20086 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBEF33B52800C92800C20086 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BBEF33B72800C92800C20086 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBEF33C12800CA7100C20086 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		BBEF33C32800CA9000C20086 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		BBEF33C52800CAA300C20086 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
+		BBEF33C72800CAAA00C20086 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BBEF33CC2800CB0500C20086 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BBEF33CE2800CB1200C20086 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		BBEF33D02800CB2900C20086 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		BBEF33D22800CB4500C20086 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		BBEF33D42800CB4F00C20086 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BBEF33D62800CB5D00C20086 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		BBEF33D82800CB7100C20086 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		BBEF33DA2800CB7900C20086 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		BBEF33DC2800CB9F00C20086 /* PostEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditorViewController.swift; sourceTree = "<group>"; };
+		BBEF33DE2800CBAD00C20086 /* PublishPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +84,85 @@
 		BBEF33A82800C92500C20086 /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
-				BBEF33A92800C92500C20086 /* AppDelegate.swift */,
-				BBEF33AB2800C92500C20086 /* SceneDelegate.swift */,
-				BBEF33AD2800C92500C20086 /* ViewController.swift */,
-				BBEF33AF2800C92500C20086 /* Main.storyboard */,
-				BBEF33B22800C92800C20086 /* Assets.xcassets */,
-				BBEF33B42800C92800C20086 /* LaunchScreen.storyboard */,
+				BBEF33C02800C9DB00C20086 /* Resources */,
+				BBEF33BF2800C9D500C20086 /* Models */,
+				BBEF33BE2800C9CF00C20086 /* Views */,
+				BBEF33BD2800C9C800C20086 /* Controllers */,
 				BBEF33B72800C92800C20086 /* Info.plist */,
 			);
 			path = Instagram;
+			sourceTree = "<group>";
+		};
+		BBEF33BD2800C9C800C20086 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF33CA2800CAE900C20086 /* Other */,
+				BBEF33C92800CACF00C20086 /* Core Tabs */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BBEF33BE2800C9CF00C20086 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF33AF2800C92500C20086 /* Main.storyboard */,
+				BBEF33B22800C92800C20086 /* Assets.xcassets */,
+				BBEF33B42800C92800C20086 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BBEF33BF2800C9D500C20086 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BBEF33C02800C9DB00C20086 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF33A92800C92500C20086 /* AppDelegate.swift */,
+				BBEF33AB2800C92500C20086 /* SceneDelegate.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BBEF33C92800CACF00C20086 /* Core Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF33AD2800C92500C20086 /* HomeViewController.swift */,
+				BBEF33C12800CA7100C20086 /* ExploreViewController.swift */,
+				BBEF33C32800CA9000C20086 /* CameraViewController.swift */,
+				BBEF33C52800CAA300C20086 /* NotificationsViewController.swift */,
+				BBEF33C72800CAAA00C20086 /* ProfileViewController.swift */,
+			);
+			path = "Core Tabs";
+			sourceTree = "<group>";
+		};
+		BBEF33CA2800CAE900C20086 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF33CB2800CAF400C20086 /* Onboarding */,
+				BBEF33D02800CB2900C20086 /* PostViewController.swift */,
+				BBEF33D22800CB4500C20086 /* EditProfileViewController.swift */,
+				BBEF33D42800CB4F00C20086 /* SettingsViewController.swift */,
+				BBEF33D62800CB5D00C20086 /* ListViewController.swift */,
+				BBEF33D82800CB7100C20086 /* SearchViewController.swift */,
+				BBEF33DA2800CB7900C20086 /* SearchResultViewController.swift */,
+				BBEF33DC2800CB9F00C20086 /* PostEditorViewController.swift */,
+				BBEF33DE2800CBAD00C20086 /* PublishPostViewController.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		BBEF33CB2800CAF400C20086 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF33CC2800CB0500C20086 /* LoginViewController.swift */,
+				BBEF33CE2800CB1200C20086 /* RegistrationViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +236,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBEF33AE2800C92500C20086 /* ViewController.swift in Sources */,
+				BBEF33D32800CB4500C20086 /* EditProfileViewController.swift in Sources */,
+				BBEF33C22800CA7100C20086 /* ExploreViewController.swift in Sources */,
+				BBEF33DF2800CBAD00C20086 /* PublishPostViewController.swift in Sources */,
+				BBEF33C42800CA9000C20086 /* CameraViewController.swift in Sources */,
+				BBEF33AE2800C92500C20086 /* HomeViewController.swift in Sources */,
+				BBEF33CF2800CB1200C20086 /* RegistrationViewController.swift in Sources */,
+				BBEF33DD2800CB9F00C20086 /* PostEditorViewController.swift in Sources */,
+				BBEF33D12800CB2900C20086 /* PostViewController.swift in Sources */,
+				BBEF33C62800CAA300C20086 /* NotificationsViewController.swift in Sources */,
+				BBEF33DB2800CB7900C20086 /* SearchResultViewController.swift in Sources */,
+				BBEF33CD2800CB0500C20086 /* LoginViewController.swift in Sources */,
+				BBEF33D92800CB7100C20086 /* SearchViewController.swift in Sources */,
+				BBEF33C82800CAAA00C20086 /* ProfileViewController.swift in Sources */,
 				BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */,
 				BBEF33AC2800C92500C20086 /* SceneDelegate.swift in Sources */,
+				BBEF33D72800CB5D00C20086 /* ListViewController.swift in Sources */,
+				BBEF33D52800CB4F00C20086 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
