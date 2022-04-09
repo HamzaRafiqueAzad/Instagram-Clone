@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="46M-NR-IOJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -66,7 +67,7 @@
         <scene sceneID="MsL-Zi-CQT">
             <objects>
                 <navigationController id="5sd-rw-WJD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title=" " image="globe" catalog="system" id="PaV-mY-YXc"/>
+                    <tabBarItem key="tabBarItem" title=" " image="magnifyingglass" catalog="system" id="PaV-mY-YXc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gST-6N-zSl">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -100,7 +101,7 @@
         <scene sceneID="vix-Me-hF6">
             <objects>
                 <navigationController id="KUx-Gc-usS" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="bell" catalog="system" id="rCK-zU-a6c"/>
+                    <tabBarItem key="tabBarItem" title="" image="heart" catalog="system" id="rCK-zU-a6c"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9D7-s3-Tyy">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -196,9 +197,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bell" catalog="system" width="128" height="124"/>
-        <image name="globe" catalog="system" width="128" height="121"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="house" catalog="system" width="128" height="106"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
