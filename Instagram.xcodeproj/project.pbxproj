@@ -18,6 +18,8 @@
 		BBE04B752801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */; };
 		BBE04B7728021EC9009EB820 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B7628021EC9009EB820 /* FormTableViewCell.swift */; };
 		BBE04B7A280224DE009EB820 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B79280224DE009EB820 /* PhotoCollectionViewCell.swift */; };
+		BBE04B7C28022567009EB820 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B7B28022567009EB820 /* ProfileInfoHeaderCollectionReusableView.swift */; };
+		BBE04B7E280225B0009EB820 /* ProfileTabsCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B7D280225B0009EB820 /* ProfileTabsCollectionReusableView.swift */; };
 		BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33A92800C92500C20086 /* AppDelegate.swift */; };
 		BBEF33AC2800C92500C20086 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AB2800C92500C20086 /* SceneDelegate.swift */; };
 		BBEF33AE2800C92500C20086 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AD2800C92500C20086 /* HomeViewController.swift */; };
@@ -55,6 +57,8 @@
 		BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostGeneralTableViewCell.swift; sourceTree = "<group>"; };
 		BBE04B7628021EC9009EB820 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		BBE04B79280224DE009EB820 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		BBE04B7B28022567009EB820 /* ProfileInfoHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		BBE04B7D280225B0009EB820 /* ProfileTabsCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabsCollectionReusableView.swift; sourceTree = "<group>"; };
 		BBEF33A62800C92500C20086 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBEF33A92800C92500C20086 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEF33AB2800C92500C20086 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +152,8 @@
 		BBE04B78280224B8009EB820 /* CollectionView Headers */ = {
 			isa = PBXGroup;
 			children = (
+				BBE04B7B28022567009EB820 /* ProfileInfoHeaderCollectionReusableView.swift */,
+				BBE04B7D280225B0009EB820 /* ProfileTabsCollectionReusableView.swift */,
 			);
 			path = "CollectionView Headers";
 			sourceTree = "<group>";
@@ -389,6 +395,7 @@
 				BBB4D4E12800D80E007F6B49 /* StorageManager.swift in Sources */,
 				BBE04B7728021EC9009EB820 /* FormTableViewCell.swift in Sources */,
 				BBEF33D12800CB2900C20086 /* PostViewController.swift in Sources */,
+				BBE04B7E280225B0009EB820 /* ProfileTabsCollectionReusableView.swift in Sources */,
 				BBB4D4DD2800D701007F6B49 /* DatabaseManager.swift in Sources */,
 				BBEF33C62800CAA300C20086 /* NotificationsViewController.swift in Sources */,
 				BBE04B6E2801F410009EB820 /* IGFeedPostTableViewCell.swift in Sources */,
@@ -398,6 +405,7 @@
 				BBF0393F2800E8A4007B4D9F /* Extensions.swift in Sources */,
 				BBE04B752801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift in Sources */,
 				BBEF33D92800CB7100C20086 /* SearchViewController.swift in Sources */,
+				BBE04B7C28022567009EB820 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */,
 				BBEF33C82800CAAA00C20086 /* ProfileViewController.swift in Sources */,
 				BBB4D4DF2800D7C1007F6B49 /* AuthManager.swift in Sources */,
 				BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */,
