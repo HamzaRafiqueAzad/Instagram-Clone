@@ -12,6 +12,10 @@
 		BBB4D4DF2800D7C1007F6B49 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB4D4DE2800D7C1007F6B49 /* AuthManager.swift */; };
 		BBB4D4E12800D80E007F6B49 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB4D4E02800D80E007F6B49 /* StorageManager.swift */; };
 		BBE04B6B2801E385009EB820 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BBE04B6A2801E385009EB820 /* GoogleService-Info.plist */; };
+		BBE04B6E2801F410009EB820 /* IGFeedPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B6D2801F410009EB820 /* IGFeedPostTableViewCell.swift */; };
+		BBE04B712801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B702801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift */; };
+		BBE04B732801F588009EB820 /* IGFeedPostActionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B722801F588009EB820 /* IGFeedPostActionsTableViewCell.swift */; };
+		BBE04B752801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */; };
 		BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33A92800C92500C20086 /* AppDelegate.swift */; };
 		BBEF33AC2800C92500C20086 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AB2800C92500C20086 /* SceneDelegate.swift */; };
 		BBEF33AE2800C92500C20086 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AD2800C92500C20086 /* HomeViewController.swift */; };
@@ -43,6 +47,10 @@
 		BBB4D4DE2800D7C1007F6B49 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BBB4D4E02800D80E007F6B49 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		BBE04B6A2801E385009EB820 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BBE04B6D2801F410009EB820 /* IGFeedPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostTableViewCell.swift; sourceTree = "<group>"; };
+		BBE04B702801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		BBE04B722801F588009EB820 /* IGFeedPostActionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostActionsTableViewCell.swift; sourceTree = "<group>"; };
+		BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostGeneralTableViewCell.swift; sourceTree = "<group>"; };
 		BBEF33A62800C92500C20086 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBEF33A92800C92500C20086 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEF33AB2800C92500C20086 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +120,25 @@
 			path = General;
 			sourceTree = "<group>";
 		};
+		BBE04B6C2801F3DA009EB820 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				BBE04B6F2801F54D009EB820 /* Home Feed */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		BBE04B6F2801F54D009EB820 /* Home Feed */ = {
+			isa = PBXGroup;
+			children = (
+				BBE04B6D2801F410009EB820 /* IGFeedPostTableViewCell.swift */,
+				BBE04B702801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift */,
+				BBE04B722801F588009EB820 /* IGFeedPostActionsTableViewCell.swift */,
+				BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */,
+			);
+			path = "Home Feed";
+			sourceTree = "<group>";
+		};
 		BBEF339D2800C92500C20086 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +181,7 @@
 		BBEF33BE2800C9CF00C20086 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BBE04B6C2801F3DA009EB820 /* Cells */,
 				BBF039402800EC96007B4D9F /* Storyboards */,
 				BBEF33B22800C92800C20086 /* Assets.xcassets */,
 			);
@@ -342,19 +370,23 @@
 				BBEF33C42800CA9000C20086 /* CameraViewController.swift in Sources */,
 				BBEF33AE2800C92500C20086 /* HomeViewController.swift in Sources */,
 				BBEF33CF2800CB1200C20086 /* RegistrationViewController.swift in Sources */,
+				BBE04B712801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift in Sources */,
 				BBEF33DD2800CB9F00C20086 /* PostEditorViewController.swift in Sources */,
 				BBB4D4E12800D80E007F6B49 /* StorageManager.swift in Sources */,
 				BBEF33D12800CB2900C20086 /* PostViewController.swift in Sources */,
 				BBB4D4DD2800D701007F6B49 /* DatabaseManager.swift in Sources */,
 				BBEF33C62800CAA300C20086 /* NotificationsViewController.swift in Sources */,
+				BBE04B6E2801F410009EB820 /* IGFeedPostTableViewCell.swift in Sources */,
 				BBEF33DB2800CB7900C20086 /* SearchResultViewController.swift in Sources */,
 				BBEF33CD2800CB0500C20086 /* LoginViewController.swift in Sources */,
 				BBF0393F2800E8A4007B4D9F /* Extensions.swift in Sources */,
+				BBE04B752801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift in Sources */,
 				BBEF33D92800CB7100C20086 /* SearchViewController.swift in Sources */,
 				BBEF33C82800CAAA00C20086 /* ProfileViewController.swift in Sources */,
 				BBB4D4DF2800D7C1007F6B49 /* AuthManager.swift in Sources */,
 				BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */,
 				BBEF33AC2800C92500C20086 /* SceneDelegate.swift in Sources */,
+				BBE04B732801F588009EB820 /* IGFeedPostActionsTableViewCell.swift in Sources */,
 				BBEF33D72800CB5D00C20086 /* ListViewController.swift in Sources */,
 				BBEF33D52800CB4F00C20086 /* SettingsViewController.swift in Sources */,
 			);
