@@ -16,6 +16,7 @@
 		BBE04B712801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B702801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift */; };
 		BBE04B732801F588009EB820 /* IGFeedPostActionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B722801F588009EB820 /* IGFeedPostActionsTableViewCell.swift */; };
 		BBE04B752801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */; };
+		BBE04B7728021EC9009EB820 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE04B7628021EC9009EB820 /* FormTableViewCell.swift */; };
 		BBEF33AA2800C92500C20086 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33A92800C92500C20086 /* AppDelegate.swift */; };
 		BBEF33AC2800C92500C20086 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AB2800C92500C20086 /* SceneDelegate.swift */; };
 		BBEF33AE2800C92500C20086 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF33AD2800C92500C20086 /* HomeViewController.swift */; };
@@ -51,6 +52,7 @@
 		BBE04B702801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		BBE04B722801F588009EB820 /* IGFeedPostActionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostActionsTableViewCell.swift; sourceTree = "<group>"; };
 		BBE04B742801F5A7009EB820 /* IGFeedPostGeneralTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostGeneralTableViewCell.swift; sourceTree = "<group>"; };
+		BBE04B7628021EC9009EB820 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		BBEF33A62800C92500C20086 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBEF33A92800C92500C20086 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEF33AB2800C92500C20086 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				BBE04B6F2801F54D009EB820 /* Home Feed */,
+				BBE04B7628021EC9009EB820 /* FormTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				BBE04B712801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift in Sources */,
 				BBEF33DD2800CB9F00C20086 /* PostEditorViewController.swift in Sources */,
 				BBB4D4E12800D80E007F6B49 /* StorageManager.swift in Sources */,
+				BBE04B7728021EC9009EB820 /* FormTableViewCell.swift in Sources */,
 				BBEF33D12800CB2900C20086 /* PostViewController.swift in Sources */,
 				BBB4D4DD2800D701007F6B49 /* DatabaseManager.swift in Sources */,
 				BBEF33C62800CAA300C20086 /* NotificationsViewController.swift in Sources */,
