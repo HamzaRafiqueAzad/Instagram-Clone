@@ -18,6 +18,7 @@ public class StorageManager {
     }
     // MARK: - Public
     public func uploadUserPhotoPost(model: UserPost, completion: @escaping (Result<URL, Error>) -> Void) {
+        // Upload Post
         
     }
     
