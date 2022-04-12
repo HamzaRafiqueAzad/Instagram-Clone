@@ -132,9 +132,9 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
                                        width: countButtonWidth,
                                        height: buttonHeight).integral
         
-        editProfileButton.frame = CGRect(x: profilePhotoImageView.right,
+        editProfileButton.frame = CGRect(x: profilePhotoImageView.right + 50,
                                          y: 5 + buttonHeight,
-                                         width: countButtonWidth * 3,
+                                         width: countButtonWidth * 3 - 100,
                                          height: buttonHeight).integral
         
         nameLabel.frame = CGRect(x: 5,
