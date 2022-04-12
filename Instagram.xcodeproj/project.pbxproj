@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8AD2EF074ECDB50DE521ED4F /* Pods_Instagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98602136333C08D75A9501C8 /* Pods_Instagram.framework */; };
+		BB44AE1628061C7E0031CBDB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB44AE1528061C7E0031CBDB /* Models.swift */; };
 		BBB4D4DD2800D701007F6B49 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB4D4DC2800D701007F6B49 /* DatabaseManager.swift */; };
 		BBB4D4DF2800D7C1007F6B49 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB4D4DE2800D7C1007F6B49 /* AuthManager.swift */; };
 		BBB4D4E12800D80E007F6B49 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB4D4E02800D80E007F6B49 /* StorageManager.swift */; };
@@ -47,6 +48,7 @@
 		8814C8D1928C2FD748BD7742 /* Pods-Instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.release.xcconfig"; path = "Target Support Files/Pods-Instagram/Pods-Instagram.release.xcconfig"; sourceTree = "<group>"; };
 		98602136333C08D75A9501C8 /* Pods_Instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B0DFFFAAB17E97D5EF1AAD4 /* Pods-Instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.debug.xcconfig"; path = "Target Support Files/Pods-Instagram/Pods-Instagram.debug.xcconfig"; sourceTree = "<group>"; };
+		BB44AE1528061C7E0031CBDB /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		BBB4D4DC2800D701007F6B49 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		BBB4D4DE2800D7C1007F6B49 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BBB4D4E02800D80E007F6B49 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		BBEF33BF2800C9D500C20086 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BB44AE1528061C7E0031CBDB /* Models.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				BBE04B712801F56E009EB820 /* IGFeedPostHeaderTableViewCell.swift in Sources */,
 				BBEF33DD2800CB9F00C20086 /* PostEditorViewController.swift in Sources */,
 				BBB4D4E12800D80E007F6B49 /* StorageManager.swift in Sources */,
+				BB44AE1628061C7E0031CBDB /* Models.swift in Sources */,
 				BBE04B7728021EC9009EB820 /* FormTableViewCell.swift in Sources */,
 				BBEF33D12800CB2900C20086 /* PostViewController.swift in Sources */,
 				BBE04B7E280225B0009EB820 /* ProfileTabsCollectionReusableView.swift in Sources */,

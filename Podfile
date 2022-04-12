@@ -10,6 +10,8 @@ target 'Instagram' do
 # Appirator used for App Rating prompt
 pod 'Appirater'
 
+pod 'SDWebImage'
+
 # Firebase for all the backend services
 
 pod 'Firebase/Core'
