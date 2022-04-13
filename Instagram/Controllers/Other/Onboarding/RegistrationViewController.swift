@@ -88,6 +88,7 @@ class RegistrationViewController: UIViewController {
                                  for: .touchUpInside)
         
         usernameField.delegate = self
+        emailField.delegate = self
         passwordField.delegate = self
     }
     
@@ -126,6 +127,7 @@ class RegistrationViewController: UIViewController {
             DispatchQueue.main.async {
                 if registered {
                     // New User registered
+                    self.dismiss(animated: true)
                     
                 } else {
                     // Failed
@@ -143,7 +145,7 @@ extension RegistrationViewController: UITextFieldDelegate {
         if textField == usernameField {
             emailField.becomeFirstResponder()
         } else if textField == emailField {
-            emailField.becomeFirstResponder()
+            passwordField.becomeFirstResponder()
         } else {
             didTapRegisterButton()
         }
