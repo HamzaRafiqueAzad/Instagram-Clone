@@ -35,7 +35,7 @@ class PostViewController: UIViewController {
         tableView.register(IGFeedPostHeaderTableViewCell.self,
                            forCellReuseIdentifier: IGFeedPostHeaderTableViewCell.identifier)
         tableView.register(IGFeedPostActionsTableViewCell.self,
-                           forCellReuseIdentifier: IGFeedPostTableViewCell.identifier)
+                           forCellReuseIdentifier: IGFeedPostActionsTableViewCell.identifier)
         tableView.register(IGFeedPostGeneralTableViewCell.self,
                            forCellReuseIdentifier: IGFeedPostGeneralTableViewCell.identifier)
         
@@ -48,9 +48,14 @@ class PostViewController: UIViewController {
         configureModels()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func configureModels() {
-        
+        print(self.model)
         guard let userPostModel = self.model else { return }
+//        print(2)
         
         // - Header Model
         renderModels.append(PostRenderViewModel(renderType: .header(provider: userPostModel.owner)))
@@ -79,10 +84,6 @@ class PostViewController: UIViewController {
     // - Action Buttons Cell Model
     // - n Number of General Models for comments
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -102,6 +103,7 @@ class PostViewController: UIViewController {
 
 extension PostViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
+//        print(renderModels.count)
         return renderModels.count
     }
     
