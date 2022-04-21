@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 import AVFoundation
 
 struct HomeFeedRenderViewModel {
@@ -19,6 +20,8 @@ struct HomeFeedRenderViewModel {
 class HomeViewController: UIViewController {
     
     private var feedRenderModels = [HomeFeedRenderViewModel]()
+    
+    private let database = Database.database().reference()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -37,6 +40,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //        var email: [String: Any]
         // Do any additional setup after loading the view.
         createMockModels()
         view.addSubview(tableView)
@@ -47,7 +51,7 @@ class HomeViewController: UIViewController {
     private func createMockModels() {
         let user = User(username: "@hamma",
                         bio: "",
-                        name: (first: "", last: ""),
+                        name: "",
                         profilePhoto: URL(string: "https://www.google.com")!,
                         birthDate: Date(),
                         gender: .male,
@@ -91,7 +95,18 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         
         //Check Auth Status
+        loadUserData()
         handelNotAuthenticated()
+    }
+    
+    private func loadUserData() {
+        let data = UserDefaults.standard.value(forKey: "user") as! Data
+        do {
+            UsefulValues.user = try PropertyListDecoder().decode(User.self, from: data)
+            print("Decode: \(UsefulValues.user)")
+        } catch {
+            
+        }
     }
     
     private func handelNotAuthenticated() {
@@ -101,9 +116,29 @@ class HomeViewController: UIViewController {
             let loginVC = LoginViewController()
             loginVC.modalPresentationStyle = .fullScreen
             present(loginVC, animated: true)
+        } else {
+            DispatchQueue.main.async {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
+                
+                self.database.queryOrderedByPriority().observe(.childAdded) { snapshot in
+                    let email = snapshot.value! as! [String : Any]
+                    let userCount = UserCount(followers: email["followers"] as! Int, following: email["following"] as! Int, posts: email["posts"] as! Int)
+                    let user = User(username: email["username"] as! String, bio: email["bio"] as! String, name: email["name"] as! String, profilePhoto: URL(string: email["profilePhoto"] as! String)!, birthDate: dateFormatter.date(from: email["birthDate"] as! String)!, gender: Gender(rawValue: email["gender"] as! String)!, counts: userCount, joinDate: dateFormatter.date(from: email["joinDate"] as! String)!)
+                    do {
+                        let okay = try PropertyListEncoder().encode(user)
+                        UserDefaults.standard.setValue(okay, forKey: "user")
+                        let data = UserDefaults.standard.value(forKey: "user") as! Data
+                        UsefulValues.user = try PropertyListDecoder().decode(User.self, from: data)
+                    } catch {
+                        
+                    }
+                }
+                
+            }
         }
+        
     }
-    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {

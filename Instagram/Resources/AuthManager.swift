@@ -6,11 +6,14 @@
 //
 
 import FirebaseAuth
+import FirebaseDatabase
 import UIKit
 
 public class AuthManager {
     
     static let shared = AuthManager()
+    
+    private let database = Database.database().reference()
     
     // MARK: - Public
     
@@ -63,7 +66,24 @@ public class AuthManager {
             
         } else if let username = username {
             // Username Login
-            print(username)
+            print("USERNAME: \(username)")
+            database.child(username).child("email").getData { error, snapshot in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return;
+                  }
+                let email = snapshot.value as? String ?? "Unknown"
+                print(email)
+                
+                Auth.auth().signIn(withEmail: email, password: password) { authResults, error in
+                    guard authResults != nil, error == nil else {
+                        completion(false)
+                        return
+                    }
+                    completion(true)
+                }
+                
+            }
             
         }
         

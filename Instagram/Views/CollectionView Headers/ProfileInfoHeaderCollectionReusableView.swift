@@ -23,8 +23,19 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     private let profilePhotoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .red
+        print("Profile: \(UsefulValues.user)")
+        imageView.sd_setImage(with: UsefulValues.user.profilePhoto)
         imageView.layer.masksToBounds = true
         return imageView
+    }()
+    
+    private let postsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\(UsefulValues.user.counts.posts)"
+        label.textColor = .label
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        return label
     }()
     
     private let postsButton: UIButton = {
@@ -34,11 +45,29 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
         return button
     }()
     
+    private let followingLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\(UsefulValues.user.counts.following)"
+        label.textColor = .label
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        return label
+    }()
+    
     private let followingButton: UIButton = {
         let button = UIButton()
         button.setTitle("Following", for: .normal)
         button.setTitleColor(.label, for: .normal)
         return button
+    }()
+    
+    private let followersLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\(UsefulValues.user.counts.followers)"
+        label.textColor = .label
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        return label
     }()
     
     private let followersButton: UIButton = {
@@ -58,7 +87,7 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Hamza Rafique Azad"
+        label.text = "\(UsefulValues.user.name)"
         label.textColor = .label
         label.numberOfLines = 1
         return label
@@ -66,7 +95,7 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     
     private let bioLabel: UILabel = {
         let label = UILabel()
-        label.text = "This is the first account."
+        label.text = "\(UsefulValues.user.bio)"
         label.textColor = .label
         label.numberOfLines = 0 // Line wrap
         return label
@@ -98,6 +127,9 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
         addSubview(bioLabel)
         addSubview(nameLabel)
         addSubview(editProfileButton)
+        addSubview(postsLabel)
+        addSubview(followingLabel)
+        addSubview(followersLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -122,15 +154,30 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
                                    width: countButtonWidth,
                                    height: buttonHeight).integral
         
+        postsLabel.frame = CGRect(x: postsButton.center.x - 5,
+                                  y: postsButton.top - 5,
+                                  width: postsLabel.intrinsicContentSize.width,
+                                   height: postsLabel.intrinsicContentSize.height).integral
+        
         followersButton.frame = CGRect(x: postsButton.right,
                                        y: 5,
                                        width: countButtonWidth,
                                        height: buttonHeight).integral
         
+        followersLabel.frame = CGRect(x: followersButton.center.x - 5,
+                                  y: followersButton.top - 5,
+                                  width: followersLabel.intrinsicContentSize.width,
+                                   height: followersLabel.intrinsicContentSize.height).integral
+        
         followingButton.frame = CGRect(x: followersButton.right,
                                        y: 5,
                                        width: countButtonWidth,
                                        height: buttonHeight).integral
+        
+        followingLabel.frame = CGRect(x: followingButton.center.x - 5,
+                                  y: followingButton.top - 5,
+                                  width: followingLabel.intrinsicContentSize.width,
+                                   height: followingLabel.intrinsicContentSize.height).integral
         
         editProfileButton.frame = CGRect(x: profilePhotoImageView.right + 50,
                                          y: 5 + buttonHeight,
