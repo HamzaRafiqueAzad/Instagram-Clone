@@ -6,14 +6,15 @@
 //
 
 import FirebaseAuth
-import FirebaseDatabase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import UIKit
 
 public class AuthManager {
     
     static let shared = AuthManager()
     
-    private let database = Database.database().reference()
+    private let database = Firestore.firestore()
     
     // MARK: - Public
     
@@ -66,25 +67,33 @@ public class AuthManager {
             
         } else if let username = username {
             // Username Login
-            print("USERNAME: \(username)")
-            database.child(username).child("email").getData { error, snapshot in
-                guard error == nil else {
-                    print(error!.localizedDescription)
-                    return;
-                  }
-                let email = snapshot.value as? String ?? "Unknown"
-                print(email)
-                
-                Auth.auth().signIn(withEmail: email, password: password) { authResults, error in
-                    guard authResults != nil, error == nil else {
-                        completion(false)
-                        return
+            print("Username: \(username)")
+            database.collection("users").document(username).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let userData =  try! document.data(as: User.self)
+                    UsefulValues.user = userData!
+                    
+                    print("Document data: \(userData)")
+                    do {
+                    let user = try PropertyListEncoder().encode(UsefulValues.user)
+                    UserDefaults.standard.set(user, forKey: "user")
+                    } catch {
+                        
                     }
-                    completion(true)
+                    
+                    let email = document.get("email") as! String
+                    Auth.auth().signIn(withEmail: email, password: password) { authResults, error in
+                        guard authResults != nil, error == nil else {
+                            completion(false)
+                            return
+                        }
+                        completion(true)
+                    }
+                    
+                } else {
+                    print("Document does not exist")
                 }
-                
-            }
-            
+            }            
         }
         
     }

@@ -20,10 +20,17 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     
     static let identifier = "ProfileInfoHeaderCollectionReusableView"
     
-    private let profilePhotoImageView: UIImageView = {
+    public var userPhotoURL = UsefulValues.user.profilePhoto {
+        didSet {
+            print("Value changed")
+            
+        }
+    }
+    
+    public let profilePhotoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .red
-        print("Profile: \(UsefulValues.user)")
+        print("New Profile: \(UsefulValues.user.profilePhoto)")
         imageView.sd_setImage(with: UsefulValues.user.profilePhoto)
         imageView.layer.masksToBounds = true
         return imageView
@@ -31,7 +38,7 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     
     private let postsLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(UsefulValues.user.counts.posts)"
+        label.text = "\(UsefulValues.user.counts.postsCount)"
         label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 1
@@ -47,7 +54,7 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     
     private let followingLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(UsefulValues.user.counts.following)"
+        label.text = "\(UsefulValues.user.counts.followingCount)"
         label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 1
@@ -63,7 +70,7 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
     
     private let followersLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(UsefulValues.user.counts.followers)"
+        label.text = "\(UsefulValues.user.counts.followersCount)"
         label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 1
@@ -108,7 +115,6 @@ final class ProfileInfoHeaderCollectionReusableView: UICollectionReusableView {
         addSubviews()
         addButtonActions()
         
-//        backgroundColor = .systemBlue
         clipsToBounds = true
     }
     

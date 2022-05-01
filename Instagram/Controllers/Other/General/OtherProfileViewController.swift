@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  OtherProfileViewController.swift
 //  Instagram
 //
 //  Created by Hamza Rafique Azad on 9/4/22.
@@ -8,29 +8,25 @@
 import UIKit
 
 /// Profile View Controller
-final class ProfileViewController: UIViewController {
+final class OtherProfileViewController: UIViewController {
     
     private var collectionView: UICollectionView?
     
-    private var userPosts = [UserPost]()
+    public var userPosts = [UserPost]()
+    
+    private var tempUser = [UserPost]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
-        
-        configureNavigationBar()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("VIEW WILL APPEAR CALLED.")
-        print(UsefulValues.allPosts.userPosts.count)
-        userPosts = UsefulValues.allPosts.userPosts
-//        userPosts = UsefulValues.user.posts.reversed()
-        
+        print(userPosts.count)
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 1
@@ -59,7 +55,6 @@ final class ProfileViewController: UIViewController {
             return
         }
         view.addSubview(collectionView)
-        collectionView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,10 +71,10 @@ final class ProfileViewController: UIViewController {
         vc.title = "Settings"
         navigationController?.pushViewController(vc, animated: true)
     }
-
+    
 }
 
-extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension OtherProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -91,6 +86,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         return userPosts.count
+        //        return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -98,6 +94,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as! PhotoCollectionViewCell
         
         cell.configure(with: model)
+        //        cell.configure(debug: "test")
         
         return cell
     }
@@ -147,7 +144,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 // MARK: - ProfileInfoHeaderCollectionReusableViewDelegate
-extension ProfileViewController: ProfileInfoHeaderCollectionReusableViewDelegate {
+extension OtherProfileViewController: ProfileInfoHeaderCollectionReusableViewDelegate {
     func profileHeaderDidTapPostsButton(_ header: ProfileInfoHeaderCollectionReusableView) {
         // Scroll to the posts section
         collectionView?.scrollToItem(at: IndexPath(row: 0, section: 1), at: .top, animated: true)
@@ -175,21 +172,20 @@ extension ProfileViewController: ProfileInfoHeaderCollectionReusableViewDelegate
         vc.title = "Following"
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
-
+        
     }
     
-
+    
     func profileHeaderDidTapEditProfileButton(_ header: ProfileInfoHeaderCollectionReusableView) {
         let vc = EditProfileViewController()
         vc.title = "Edit Profile"
-        vc.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(vc, animated: true)
+        present(UINavigationController(rootViewController: vc), animated: true)
     }
     
     
 }
 
-extension ProfileViewController: ProfileTabsCollectionReusableViewDelegate {
+extension OtherProfileViewController: ProfileTabsCollectionReusableViewDelegate {
     func didTapGridButtonTab() {
         // Reload CollectionView with data
     }

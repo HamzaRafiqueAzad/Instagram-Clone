@@ -70,9 +70,9 @@ final class NotificationsViewController: UIViewController {
     
     private func fetchNotifications() {
         for x in 0...100 {
-            let user = User(username: "Hamma", bio: "", name: "", profilePhoto: URL(string: "https://www.google.com")!, birthDate: Date(), gender: .male, counts: UserCount(followers: 1, following: 1, posts: 1), joinDate: Date())
+            let user = User(username: "Hamma", email: "hamma@gmail.com", bio: "", name: "", profilePhoto: URL(string: "https://www.google.com")!, birthDate: Date(), gender: .male, counts: UserCount(followersCount: 1, followingCount: 1, postsCount: 1), joinDate: Date(), posts: [UserPost]())
             
-            let post = UserPost(identifier: "", postType: .photo, thumbnailImage: URL(string: "https://www.google.com")!, postURL: URL(string: "https://www.google.com")!, caption: nil, likeCount: [], comments: [], createdDate: Date(), taggedUsers: [], owner: user)
+            let post = UserPost(identifier: "", postType: .photo, thumbnailImage: URL(string: "https://www.google.com")!, postURL: URL(string: "https://www.google.com")!, caption: nil, likeCount: [], comments: [], createdDate: Date().millisecondsSince1970, taggedUsers: [], ownerUsername: user.username)
             let model = UserNotification(type: x % 2 == 0 ? .like(post: post) : .follow(state: .not_following), text: "Hello World", user: user)
             
             models.append(model)

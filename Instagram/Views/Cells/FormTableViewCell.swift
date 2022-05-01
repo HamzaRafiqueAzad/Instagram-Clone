@@ -77,6 +77,14 @@ class FormTableViewCell: UITableViewCell {
 
 extension FormTableViewCell: UITextFieldDelegate {
     // MARK: - Field
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        model?.value = (textField.text as NSString?)?.replacingCharacters(in: range, with: string)
+        guard let model = model else { return true}
+        delegate?.formTableViewCell(self, didUpdateField: model)
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         model?.value = textField.text
         guard let model = model else { return true}

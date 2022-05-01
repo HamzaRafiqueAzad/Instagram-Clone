@@ -6,15 +6,20 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 protocol IGFeedPostHeaderTableViewCellDelegate: AnyObject {
     func didTapMoreButton()
+    func didTapUsername(with user: String)
 }
 
 class IGFeedPostHeaderTableViewCell: UITableViewCell {
 
     static let identifier = "IGFeedPostHeaderTableViewCell"
     weak var delegate: IGFeedPostHeaderTableViewCellDelegate?
+    
+    private let database = Firestore.firestore()
     
     private let profilePhotoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,6 +34,7 @@ class IGFeedPostHeaderTableViewCell: UITableViewCell {
         label.textColor = .label
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 18, weight: .medium)
+        
         return label
     }()
     
@@ -38,14 +44,35 @@ class IGFeedPostHeaderTableViewCell: UITableViewCell {
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         return button
     }()
+    
+    @objc private func handleTap(_ sender: Any) {
+        print("Ok")
+        let userData: User
+        database.collection("users").document(usernameLabel.text!).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                let userData =  try! document.data(as: User.self)
+                UsefulValues.otherUser = userData!
+                delegate?.didTapUsername(with: userData!.username)
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .systemBlue
+        contentView.backgroundColor = .systemBackground
         
         contentView.addSubview(profilePhotoImageView)
         contentView.addSubview(usernameLabel)
         contentView.addSubview(moreButton)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tapGesture.numberOfTouchesRequired = 1
+        tapGesture.numberOfTapsRequired = 1
+        usernameLabel.isUserInteractionEnabled = true
+        usernameLabel.addGestureRecognizer(tapGesture)
         
         moreButton.addTarget(self, action: #selector(didTapMore), for: .touchUpInside)
     }
@@ -58,11 +85,21 @@ class IGFeedPostHeaderTableViewCell: UITableViewCell {
         delegate?.didTapMoreButton()
     }
     
-    public func configure(with model: User) {
+    public func configure(with model: String) {
         // Configure the cell
-        usernameLabel.text = model.username
-        profilePhotoImageView.image = UIImage(systemName: "person.circle")
-//        profilePhotoImageView.sd_setImage(with: model.profilePhoto)
+        self.database.collection("users").document(model).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    
+                    let userData =  try! document.data(as: User.self)
+                    let user = userData!
+                    self.usernameLabel.text = user.username
+                    self.profilePhotoImageView.sd_setImage(with: user.profilePhoto)
+                    print("User exists.")
+                } else {
+                    print("Document does not exist")
+                }
+            }
+
     }
     
     override func layoutSubviews() {

@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 /// States of a rendered cell
 enum PostRenderType {
-    case header(provider: User)
+    case header(provider: String)
     case primaryContent(provider: UserPost) // Post
     case actions(provider: String) // like, comment, share
     case comments(comments: [PostComment])
@@ -23,6 +25,8 @@ struct PostRenderViewModel {
 class PostViewController: UIViewController {
     
     private let model: UserPost?
+    
+    private let database = Firestore.firestore()
     
     private var renderModels = [PostRenderViewModel]()
     
@@ -55,10 +59,11 @@ class PostViewController: UIViewController {
     private func configureModels() {
         print(self.model)
         guard let userPostModel = self.model else { return }
-//        print(2)
+        
+        print(userPostModel.createdDate)
         
         // - Header Model
-        renderModels.append(PostRenderViewModel(renderType: .header(provider: userPostModel.owner)))
+        renderModels.append(PostRenderViewModel(renderType: .header(provider: userPostModel.ownerUsername)))
         
         // - Post Cell Model
         renderModels.append(PostRenderViewModel(renderType: .primaryContent(provider: userPostModel)))
@@ -68,13 +73,27 @@ class PostViewController: UIViewController {
         
         // - n Number of General Models for comments
         var comments = [PostComment]()
-        for x in 0..<4 {
-            comments.append(PostComment(identifier: "123_\(x)",
-                                        username: "@dave",
-                                        text: "Great Post",
-                                        createdDate: Date(),
-                                        likes: []))
-        }
+        comments.append(PostComment(identifier: "123",
+                                    username: "@hamza",
+                                    text: "Great Post",
+                                    commentDate: Date(),
+                                    likes: []))
+        comments.append(PostComment(identifier: "123",
+                                    username: "@hamma",
+                                    text: "Great Post",
+                                    commentDate: Date(),
+                                    likes: []))
+        comments.append(PostComment(identifier: "123",
+                                    username: "@kanye",
+                                    text: "Great Post",
+                                    commentDate: Date(),
+                                    likes: []))
+        comments.append(PostComment(identifier: "123",
+                                    username: "@drake",
+                                    text: "Great Post",
+                                    commentDate: Date(),
+                                    likes: []))
+        
         renderModels.append(PostRenderViewModel(renderType: .comments(comments: comments)))
         
     }
@@ -103,7 +122,7 @@ class PostViewController: UIViewController {
 
 extension PostViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-//        print(renderModels.count)
+        print(renderModels.count)
         return renderModels.count
     }
     
@@ -130,16 +149,20 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
         case .comments(let comments):
             let cell = tableView.dequeueReusableCell(withIdentifier: IGFeedPostGeneralTableViewCell.identifier,
                                                      for: indexPath) as! IGFeedPostGeneralTableViewCell
+            cell.configure(with: comments[indexPath.row])
             return cell
             
         case .primaryContent(let post):
             let cell = tableView.dequeueReusableCell(withIdentifier: IGFeedPostTableViewCell.identifier,
                                                      for: indexPath) as! IGFeedPostTableViewCell
+            cell.configure(with: post)
             return cell
             
         case .header(let user):
             let cell = tableView.dequeueReusableCell(withIdentifier: IGFeedPostHeaderTableViewCell.identifier,
                                                      for: indexPath) as! IGFeedPostHeaderTableViewCell
+            cell.configure(with: user)
+            cell.delegate = self
             return cell
             
         }
@@ -161,5 +184,70 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    
+}
+
+extension PostViewController: IGFeedPostHeaderTableViewCellDelegate {
+    
+    func didTapUsername(with user: String) {
+        let vc = OtherProfileViewController()
+        print("Okay")
+//        let otherName = user.username
+        self.database.collection("users").document(user).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    
+                    let userData =  try! document.data(as: User.self)
+                    UsefulValues.otherUser = userData!
+                    vc.title = UsefulValues.otherUser.username
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    
+                } else {
+                    print("Document does not exist")
+                }
+            }
+    }
+    
+    func didTapMoreButton() {
+        let actionSheet = UIAlertController(title: "Post Options", message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Delete Post", style: .destructive, handler: { [weak self] _ in
+            self!.database.collection("users").document(UsefulValues.user.username).collection("userPosts").getDocuments()
+            {
+                (querySnapshot, err) in
+
+                if let err = err
+                {
+                    print("Error getting documents: \(err)");
+                }
+                else
+                {
+                    for document in querySnapshot!.documents {
+                        print("Doc: \(document)")
+                        do {
+                            let post = try document.data(as: UserPost.self)!
+                            if post == self?.model {
+                                self!.database.collection("users").document(UsefulValues.user.username).collection("userPosts").document("\(document.documentID)").delete()
+                            }
+                        } catch {
+                            
+                        }
+                    }
+                }
+            }
+            if let index = UsefulValues.allPosts.userPosts.firstIndex(of: (self?.model)!) {
+                UsefulValues.allPosts.userPosts.remove(at: index) // array is now ["world", "hello"]
+                UsefulValues.user.counts.postsCount -= 1
+                do {
+                    try self!.database.collection("users").document(UsefulValues.user.username).setData(from: UsefulValues.user)
+                    self!.navigationController?.popToRootViewController(animated: true)
+                } catch {
+                    
+                }
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(actionSheet, animated: true)
+    }
     
 }

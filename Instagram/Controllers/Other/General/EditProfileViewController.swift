@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import SDWebImage
+import FirebaseStorage
 
 struct EditProfileFormModel {
     let label: String
@@ -17,16 +21,31 @@ struct EditProfileFormModel {
 /// Edit Profile View Controller
 final class EditProfileViewController: UIViewController {
     
+    private let database = Firestore.firestore()
+    private let storage = Storage.storage().reference()
+    
+    private var tempImage: UIImage?
+    
+    private var header: UIView = {
+        let header = UIView()
+        return header
+    }()
+    
+    private var profilePhotoButton: UIButton = {
+        let button = UIButton()
+        return button
+    }()
+    
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
         return tableView
     }()
-
+    
     private var models = [[EditProfileFormModel]]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
         
@@ -37,9 +56,9 @@ final class EditProfileViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapSave))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(didTapCancel))
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(didTapCancel))
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -54,11 +73,12 @@ final class EditProfileViewController: UIViewController {
     
     private func configureModels() {
         // Name, Username, Website, Bio
-        let section1Labels = ["Name", "Username", "Bio"]
+        let section1Labels = ["Name", "Bio"]
+        let section1placeholders = ["\(UsefulValues.user.name)", "\(UsefulValues.user.bio)"]
         var section1 = [EditProfileFormModel]()
-        for label in section1Labels {
-            let model = EditProfileFormModel(label: label,
-                                             placeholder: "Enter \(label)...",
+        for i in 0..<section1Labels.count {
+            let model = EditProfileFormModel(label: section1Labels[i],
+                                             placeholder: "\(section1placeholders[i])",
                                              value: nil)
             section1.append(model)
         }
@@ -78,13 +98,52 @@ final class EditProfileViewController: UIViewController {
     
     @objc private func didTapSave() {
         // Save info to database
+        var name = models[0][0].value ?? models[0][0].placeholder
+        print("Name: \(name)")
+        var bio = models[0][1].value ?? models[0][1].placeholder
+        print("Bio: \(bio)")
+        database.collection("users").document(UsefulValues.user.username).updateData([
+            "name" : "\(name)",
+            "bio" : "\(bio)"
+        ])
         
+        if tempImage != nil {
+            print("Image can be updated.")
+            guard let data = tempImage!.pngData() else {  return }
+            self.storage.child("\(UsefulValues.user.username)/\(UsefulValues.user.username).png").putData(data, metadata: nil) { metadata, error in
+                guard let metadata = metadata else {
+                    print("Failed to upload because: \(error?.localizedDescription)")
+                    return
+                }
+            }
+            self.storage.child("\(UsefulValues.user.username)/\(UsefulValues.user.username).png").downloadURL { url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                UsefulValues.user.profilePhoto = url
+                print("New url: \(UsefulValues.user.profilePhoto)")
+                self.database.collection("users").document(UsefulValues.user.username).updateData([
+                    "profilePhoto" : "\(url)",
+                ])
+            }
+        }
+        
+        if navigationController == nil {
+            dismiss(animated: true)
+        }
+        else {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
         
     }
     
     @objc private func didTapCancel() {
-        dismiss(animated: true,
-                completion: nil)
+        if navigationController == nil {
+            dismiss(animated: true)
+        } else {
+            self.navigationController?.popToRootViewController(animated: true)
+            dismiss(animated: true)
+        }
         
     }
     
@@ -96,9 +155,18 @@ final class EditProfileViewController: UIViewController {
         actionSheet.addAction(UIAlertAction(title: "Take Photo",
                                             style: .default, handler: { _ in
             
+            
         }))
         actionSheet.addAction(UIAlertAction(title: "Choose from Library",
                                             style: .default, handler: { _ in
+            
+            let imagePicker = UIImagePickerController()
+            print("IMagePCiker")
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            imagePicker.delegate = self
+            self.present(imagePicker, animated: true)
+            
             
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel",
@@ -106,31 +174,51 @@ final class EditProfileViewController: UIViewController {
         
         actionSheet.popoverPresentationController?.sourceRect = view.bounds
         actionSheet.popoverPresentationController?.sourceView = view
-                              
+        
         present(actionSheet, animated: true)
         
     }
+    
+}
 
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        tempImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage
+        DispatchQueue.main.async {
+            self.profilePhotoButton.setBackgroundImage(self.tempImage, for: .normal)
+            print(2)
+        }
+        
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        
+        picker.dismiss(animated: true)
+    }
 }
 
 extension EditProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     private func createTableHeaderView() -> UIView{
-        let header = UIView(frame: CGRect(x: 0,
-                                          y: 0,
-                                          width: view.width,
-                                          height: view.height / 4).integral)
+        header = UIView(frame: CGRect(x: 0,
+                                      y: 0,
+                                      width: view.width,
+                                      height: view.height / 4).integral)
         
         let size = header.height / 1.5
-        let profilePhotoButton = UIButton(frame: CGRect(x: (view.width - size) / 2,
-                                                        y: (header.height - size) / 2,
-                                                        width: size,
-                                                        height: size))
+        profilePhotoButton = UIButton(frame: CGRect(x: (view.width - size) / 2,
+                                                    y: (header.height - size) / 2,
+                                                    width: size,
+                                                    height: size))
         header.addSubview(profilePhotoButton)
         profilePhotoButton.layer.masksToBounds = true
         profilePhotoButton.layer.cornerRadius = size / 2.0
-        profilePhotoButton.addTarget(self, action: #selector(didTapProfilePhoto), for: .touchUpInside)
-        profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
+        profilePhotoButton.addTarget(self, action: #selector(didTapChangeProfilePicture), for: .touchUpInside)
+
+        profilePhotoButton.sd_setBackgroundImage(with: UsefulValues.user.profilePhoto, for: .normal)
+
         profilePhotoButton.layer.borderWidth = 1
         profilePhotoButton.layer.borderColor = UIColor.secondarySystemBackground.cgColor
         
@@ -138,6 +226,8 @@ extension EditProfileViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc private func didTapProfilePhoto() {
+        
+        
         
     }
     
@@ -175,6 +265,11 @@ extension EditProfileViewController: UITableViewDelegate, UITableViewDataSource 
 extension EditProfileViewController: FormTableViewCellDelegate {
     func formTableViewCell(_ cell: FormTableViewCell, didUpdateField updateModel: EditProfileFormModel) {
         // Update the model
-        print(updateModel.value ?? "nil")
+        if updateModel.label == "Name" {
+            models[0][0].value = updateModel.value
+        } else if updateModel.label == "Bio" {
+            models[0][1].value = updateModel.value
+        }
+        print("Updated: \(updateModel.value ?? "nil")")
     }
 }

@@ -37,7 +37,7 @@ final class IGFeedPostTableViewCell: UITableViewCell {
     }
     
     public func configure(with post: UserPost) {
-        postImageView.image = UIImage(named: "test")
+        postImageView.sd_setImage(with: post.postURL)
         
         return
         

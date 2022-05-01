@@ -179,9 +179,9 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         //        let model = models[indexPath.row]
-        let user = User(username: "Hamma", bio: "", name: "", profilePhoto: URL(string: "https://www.google.com")!, birthDate: Date(), gender: .male, counts: UserCount(followers: 1, following: 1, posts: 1), joinDate: Date())
+        let user = User(username: "Hamma", email: "hamma@gmail.com", bio: "", name: "", profilePhoto: URL(string: "https://www.google.com")!, birthDate: Date(), gender: .male, counts: UserCount(followersCount: 1, followingCount: 1, postsCount: 1), joinDate: Date(), posts: [UserPost]())
         
-        let post = UserPost(identifier: "", postType: .photo, thumbnailImage: URL(string: "https://www.google.com")!, postURL: URL(string: "https://www.google.com")!, caption: nil, likeCount: [], comments: [], createdDate: Date(), taggedUsers: [], owner: user)
+        let post = UserPost(identifier: "", postType: .photo, thumbnailImage: URL(string: "https://www.google.com")!, postURL: URL(string: "https://www.google.com")!, caption: nil, likeCount: [], comments: [], createdDate: Date().millisecondsSince1970, taggedUsers: [], ownerUsername: user.username)
         let vc = PostViewController(model: post)
         vc.title = post.postType.rawValue
         navigationController?.pushViewController(vc, animated: true)

@@ -7,7 +7,8 @@
 
 import UIKit
 import FirebaseAuth
-import FirebaseDatabase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import AVFoundation
 
 struct HomeFeedRenderViewModel {
@@ -18,10 +19,28 @@ struct HomeFeedRenderViewModel {
 }
 
 class HomeViewController: UIViewController {
+
+    // 2. Get the shared instance of UNUserNotificationCenter
+    static let notificationCenter = UNUserNotificationCenter.current()
+
+    
+    func requestAuthorizationForNotifications() async throws -> Bool {
+        // 3. Define the types of authorization you need
+        let authorizationOptions: UNAuthorizationOptions = [.alert, .sound, .badge]
+
+        do {
+            // 4. Request authorization to the user
+            let authorizationGranted = try await HomeViewController.notificationCenter.requestAuthorization(options: authorizationOptions)
+            // 5. Return the result of the authorization process
+            return authorizationGranted
+        } catch {
+            throw error
+        }
+    }
     
     private var feedRenderModels = [HomeFeedRenderViewModel]()
     
-    private let database = Database.database().reference()
+    private let database = Firestore.firestore()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -40,25 +59,83 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        var email: [String: Any]
+        
         // Do any additional setup after loading the view.
-        createMockModels()
+        async {
+            do {
+                let _ = try await requestAuthorizationForNotifications()
+                HomeViewController.notificationCenter.delegate = self
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+//        createMockModels()
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+//        print("COUNTTTTT")
+//        print(feedRenderModels.count)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        feedRenderModels = []
+        createMockModels()
     }
     
     private func createMockModels() {
-        let user = User(username: "@hamma",
+        do {
+            try self.database.collection("users").getDocuments()
+        {
+            (querySnapshot, err) in
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            } else {
+                do {
+                    for document in querySnapshot!.documents {
+                        do {
+                            try self.database.collection("users").document(document.documentID).collection("userPosts").order(by: "createdDate",descending: true).getDocuments(completion: { (snapshot, error) in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                } else {
+                                    do {
+                                    for docs in snapshot!.documents {
+                                        let post = try docs.data(as: UserPost.self)!
+//                                        print("POST: \(post)")
+                                        let viewModel = HomeFeedRenderViewModel(header: PostRenderViewModel(renderType: .header(provider: document.documentID)), post: PostRenderViewModel(renderType: .primaryContent(provider: post)), actions: PostRenderViewModel(renderType: .actions(provider: "")), comments: PostRenderViewModel(renderType: .comments(comments: [PostComment]())))
+//                                        print(viewModel)
+                                        self.feedRenderModels.append(viewModel)
+                                        self.tableView.reloadData()
+                                        print("COUNT: \(self.feedRenderModels.count)")
+                                    }
+                                    } catch {
+                                        
+                                    }
+                                }
+                            })
+                        } catch {
+                            
+                        }
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        } catch {
+            
+        }
+        tableView.reloadData()
+        let user = User(username: "hamza2", email: "hamza2@gmail.com",
                         bio: "",
                         name: "",
                         profilePhoto: URL(string: "https://www.google.com")!,
                         birthDate: Date(),
                         gender: .male,
-                        counts: UserCount(followers: 1,
-                                          following: 1,
-                                          posts: 1),
-                        joinDate: Date())
+                        counts: UserCount(followersCount: 1,
+                                          followingCount: 1,
+                                          postsCount: 1),
+                        joinDate: Date(), posts: [UserPost]())
         
         let post = UserPost(identifier: "",
                             postType: .photo,
@@ -67,23 +144,23 @@ class HomeViewController: UIViewController {
                             caption: nil,
                             likeCount: [],
                             comments: [],
-                            createdDate: Date(),
+                            createdDate: Date().millisecondsSince1970,
                             taggedUsers: [],
-                            owner: user)
+                            ownerUsername: user.username)
         
         var comments = [PostComment]()
         for x in 0..<2 {
             comments.append(PostComment(identifier: "456_\(x)",
                                         username: "@yaini",
                                         text: "This is the best post I've ever seen.",
-                                        createdDate: Date(),
+                                        commentDate: Date(),
                                         likes: []))
         }
         
-        for x in 0..<5 {
-            let viewModel = HomeFeedRenderViewModel(header: PostRenderViewModel(renderType: .header(provider: user)), post: PostRenderViewModel(renderType: .primaryContent(provider: post)), actions: PostRenderViewModel(renderType: .actions(provider: "")), comments: PostRenderViewModel(renderType: .comments(comments: comments)))
-            feedRenderModels.append(viewModel)
-        }
+//        for x in 0..<5 {
+//            let viewModel = HomeFeedRenderViewModel(header: PostRenderViewModel(renderType: .header(provider: user.username)), post: PostRenderViewModel(renderType: .primaryContent(provider: post)), actions: PostRenderViewModel(renderType: .actions(provider: "")), comments: PostRenderViewModel(renderType: .comments(comments: comments)))
+//            feedRenderModels.append(viewModel)
+//        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -100,13 +177,67 @@ class HomeViewController: UIViewController {
     }
     
     private func loadUserData() {
-        let data = UserDefaults.standard.value(forKey: "user") as! Data
+        
+        guard let data = UserDefaults.standard.value(forKey: "user") as? Data else {
+            do {
+                try Auth.auth().signOut()
+            } catch {
+                
+            }
+            return
+        }
         do {
             UsefulValues.user = try PropertyListDecoder().decode(User.self, from: data)
-            print("Decode: \(UsefulValues.user)")
+            print("User Data Loaded From UserDefaults.")
         } catch {
-            
+
         }
+        
+        try self.database.collection("users").document(UsefulValues.user.username).collection("userPosts").order(by: "createdDate", descending: true).getDocuments()
+        {
+            (querySnapshot, err) in
+
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            }
+            else
+            {
+                var count = 0
+                for document in querySnapshot!.documents {
+                    count += 1
+                    print("Doc: \(document)")
+                    do {
+                        let post = try document.data(as: UserPost.self)!
+                        if !(UsefulValues.allPosts.userPosts.contains(post)) {
+                            UsefulValues.allPosts.userPosts.append(post)
+                        }
+                    } catch {
+                        
+                    }
+                }
+
+                print("Count = \(count)");
+            }
+        }
+        
+        database.collection("users").document(UsefulValues.user.username).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                let userData =  try! document.data(as: User.self)
+                UsefulValues.user = userData!
+                do {
+                let user = try PropertyListEncoder().encode(UsefulValues.user)
+                UserDefaults.standard.set(user, forKey: "user")
+                } catch {
+                    
+                }
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
     }
     
     private func handelNotAuthenticated() {
@@ -117,25 +248,6 @@ class HomeViewController: UIViewController {
             loginVC.modalPresentationStyle = .fullScreen
             present(loginVC, animated: true)
         } else {
-            DispatchQueue.main.async {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-                
-                self.database.queryOrderedByPriority().observe(.childAdded) { snapshot in
-                    let email = snapshot.value! as! [String : Any]
-                    let userCount = UserCount(followers: email["followers"] as! Int, following: email["following"] as! Int, posts: email["posts"] as! Int)
-                    let user = User(username: email["username"] as! String, bio: email["bio"] as! String, name: email["name"] as! String, profilePhoto: URL(string: email["profilePhoto"] as! String)!, birthDate: dateFormatter.date(from: email["birthDate"] as! String)!, gender: Gender(rawValue: email["gender"] as! String)!, counts: userCount, joinDate: dateFormatter.date(from: email["joinDate"] as! String)!)
-                    do {
-                        let okay = try PropertyListEncoder().encode(user)
-                        UserDefaults.standard.setValue(okay, forKey: "user")
-                        let data = UserDefaults.standard.value(forKey: "user") as! Data
-                        UsefulValues.user = try PropertyListDecoder().decode(User.self, from: data)
-                    } catch {
-                        
-                    }
-                }
-                
-            }
         }
         
     }
@@ -280,15 +392,61 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewController: IGFeedPostHeaderTableViewCellDelegate {
+    func didTapUsername(with user: String) {
+        let vc = OtherProfileViewController()
+//        print(user)
+//        let otherName = user.username
+        self.database.collection("users").document(user).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    
+                    let userData =  try! document.data(as: User.self)
+                    UsefulValues.user = userData!
+                    vc.title = UsefulValues.user.username
+                    do {
+                        try self.database.collection("users").document(UsefulValues.user.username).collection("userPosts").order(by: "createdDate", descending: true).getDocuments()
+                    {
+                        (querySnapshot, err) in
+                        print(querySnapshot)
+                        if let err = err
+                        {
+                            print("Error getting documents: \(err)");
+                        } else {
+                            do {
+                                for document in querySnapshot!.documents {
+                                let post = try document.data(as: UserPost.self)!
+                                print("-------------------------------")
+                                print(post)
+                                print("-------------------------------")
+                                if !(vc.userPosts.contains(post)) {
+                                    vc.userPosts.append(post)
+                                }
+                                }
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                    } catch {
+                        
+                    }
+                    
+                    print("Document data: \(userData)")
+                } else {
+                    print("Document does not exist")
+                }
+            }
+    }
+    
     func didTapMoreButton() {
         let actionSheet = UIAlertController(title: "Post Options", message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Report Post", style: .destructive, handler: { [weak self] _ in
-            print("Okay")
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(actionSheet, animated: true)
     }
+    
 }
 
 extension HomeViewController: IGFeedPostActionsTableViewCellDelegate {
@@ -303,6 +461,20 @@ extension HomeViewController: IGFeedPostActionsTableViewCellDelegate {
     func didTapSendButton() {
         print("Send")
     }
+}
+
+extension HomeViewController: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        if #available(iOS 14.0, *) {
+            completionHandler([.alert, .sound, .banner])
+        } else {
+            // Fallback on earlier versions
+            completionHandler([.alert, .sound, .badge])
+        }
+    }
+    
     
     
 }

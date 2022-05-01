@@ -8,7 +8,8 @@
 import AVFoundation
 import UIKit
 import FirebaseStorage
-import FirebaseDatabase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class PreviewView: UIView {
     override class var layerClass: AnyClass {
@@ -25,7 +26,7 @@ class CameraViewController: UIViewController {
     
     let storage = Storage.storage().reference()
     
-    let database = Database.database().reference()
+    let database = Firestore.firestore()
     
     private let captureButton: UIButton = {
         let button = UIButton()
@@ -52,7 +53,7 @@ class CameraViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .done, target: self, action: #selector(didTapSwitch))
         
         // Do any additional setup after loading the view.
-//        navigationController?.setNavigationBarHidden(true, animated: false)
+        //        navigationController?.setNavigationBarHidden(true, animated: false)
         
         view.addSubview(previewView)
         view.addSubview(captureButton)
@@ -171,41 +172,84 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         
-        let previewImage = UIImage(data: imageData)
+        var previewImage = UIImage(data: imageData)
         
         print("Photo taken.")
         
-        guard let data = previewImage?.pngData() else {  return }
+        previewImage = previewImage?.fixedOrientation()
         
-        DispatchQueue.main.async {
-            self.storage.child("\(UsefulValues.user.username)/\(UsefulValues.user.counts.posts+1).heic").putData(data, metadata: nil) { metadata, error in
-                guard let metadata = metadata else {
-                    print("Failed to upload because: \(error?.localizedDescription)")
-                    return
-                }
-                
-                print("Photo Uploaded.")
-                
-                do {
-                    UsefulValues.user.counts.posts += 1
-                    let user = try PropertyListEncoder().encode(UsefulValues.user)
-                    UserDefaults.standard.setValue(user, forKey: "user")
-                } catch {
-                    
-                }
-                
-                self.storage.child("\(UsefulValues.user.username)/\(UsefulValues.user.counts.posts).heic").downloadURL { url, error in
-                    guard let url = url, error == nil else {
-                        return
-                    }
-                    
-                    let urlString = url.absoluteString
-                    print("Url: \(urlString)")
-                }
-            }
-        }
+        let vc = PublishPostViewController()
+        vc.title = "Publish"
+        vc.userPostImage = previewImage ?? UIImage(named: "test")!
+        self.navigationController?.pushViewController(vc, animated: true)
         
         
     }
     
+}
+
+extension UIImage {
+    /// Fix image orientaton to protrait up
+    func fixedOrientation() -> UIImage? {
+        guard imageOrientation != UIImage.Orientation.up else {
+            // This is default orientation, don't need to do anything
+            return self.copy() as? UIImage
+        }
+
+        guard let cgImage = self.cgImage else {
+            // CGImage is not available
+            return nil
+        }
+
+        guard let colorSpace = cgImage.colorSpace, let ctx = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
+            return nil // Not able to create CGContext
+        }
+
+        var transform: CGAffineTransform = CGAffineTransform.identity
+
+        switch imageOrientation {
+        case .down, .downMirrored:
+            transform = transform.translatedBy(x: size.width, y: size.height)
+            transform = transform.rotated(by: CGFloat.pi)
+        case .left, .leftMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.rotated(by: CGFloat.pi / 2.0)
+        case .right, .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: size.height)
+            transform = transform.rotated(by: CGFloat.pi / -2.0)
+        case .up, .upMirrored:
+            break
+        @unknown default:
+            fatalError("Missing...")
+            break
+        }
+
+        // Flip image one more time if needed to, this is to prevent flipped image
+        switch imageOrientation {
+        case .upMirrored, .downMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .leftMirrored, .rightMirrored:
+            transform = transform.translatedBy(x: size.height, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .up, .down, .left, .right:
+            break
+        @unknown default:
+            fatalError("Missing...")
+            break
+        }
+
+        ctx.concatenate(transform)
+
+        switch imageOrientation {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.height, height: size.width))
+        default:
+            ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            break
+        }
+
+        guard let newCGImage = ctx.makeImage() else { return nil }
+        return UIImage.init(cgImage: newCGImage, scale: 1, orientation: .up)
+    }
 }
